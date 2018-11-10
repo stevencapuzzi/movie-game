@@ -42,36 +42,85 @@ function thanksForPlaying(score){
 
 //text decoration
 function decorations(){
-  console.log("----^-------^-------^------\n");
+  console.log("~~~~~~~~~~~~~~\n");
 }
 
 function game(){
 
-  let movie = [{name:"star wars",
+
+let graphic = [`
+
+       ||                   ||
+       ||                   ||
+       ||        <^>        ||
+       |||===I||(-@-)||I===|||
+       ||         _/        ||
+       ||                   ||
+       ||                   ||
+       ||                   ||
+       ||                   ||
+
+`, `
+     ||~
+ _   ||~ _
+[_]--'--[_]
+|'|"" ""|'|
+| | /^  | |--->WELCOME TO 
+|_|_|I|_|_|    HOGWARTS
+           `,
+          ` 
+             **************************
+          .*##*:*####***:::**###*:######*.
+         *##: .###*            *######:,##*
+       *##:  :####:             *####*.  :##:
+        *##,:########**********:,       :##:
+         .#########################*,  *#*
+           *#########################*##:
+             *##,        ..,,::**#####:
+              ,##*,*****,        *##*
+                *#########*########:
+                  *##*:*******###*
+                   .##*.    ,##*
+                     :##*  *##,
+                       *####:
+                         :,
+      `];
+   
+  let movie = [{name:`star wars`,
               hints:["Starts in a galaxy far far away…",
               "R2d2 is a robot that appears in it.",
-              "Very famous by the quote \"I AM YOUR FATHER!\""]
+              "Very famous by the quote \"I AM YOUR FATHER!\""],
+              ascii: graphic[0]
               },
 {name:"harry potter",
 hints:["This one is about \"The boy who lived\"",
               "The main villians name is \"Vol... THAT WHO MUST NOT BE NAMED\"",
-              "A kid goes to Hogwarts to learn magic"]
+              "A kid goes to Hogwarts to learn magic"],
+              ascii: graphic[1]
 
 },
 {name:"superman",
 hints:["Better known as \"The man of steel\"",
               "Lex Luthor is his mortal enemy",
-              "Look, up in the sky! Its a bird! Its a plane! Its..."]
+              "Look, up in the sky! Its a bird! Its a plane! Its..."],
+              ascii: graphic[2]
 
 }];
 
+
 let prefixes = ["No! Here’s a hint","Do you live under a rock? Here’s another hint:","Looks like someone's gotta go to the movies more often, try again:", "Oh no! Let's try again"];
 
-  
+  console.log(`
+  .-------------.
+  |  Hi, user   |
+  '-------------'
+      ^      ( _/)
+      '----- (O.o)
+             (> <)....WELCOME TO GUESS THE MOVIE! `);
     
 
-  console.log("GUESS THE MOVIE! \nYou have 3 shots to guess!");
-  ready = readlineSync.question("Let me know when you’re ready to start.");
+  console.log("                   ...You have 3 shots to guess each movie!");
+  ready = readlineSync.question("Let me know when you’re ready to start\n");
 
   if(ready!=null){
     decorations();
@@ -81,15 +130,15 @@ let prefixes = ["No! Here’s a hint","Do you live under a rock? Here’s anothe
     let score = 0;
 
     //Game will go on until users find the answer or they run out of hints
-    while(gameOn===true && hintsNumber>=0){
-      userAnswer = readlineSync.question(currentMovie.hints[hintsNumber]);
+    while(gameOn===true){
+      userAnswer = readlineSync.question(currentMovie.hints[hintsNumber]+"\n");
       if(verifyMovieName(currentMovie.name,userAnswer)){
         console.log(`Very well! it was ` + currentMovie.name.toUpperCase());
-        decorations();
+        console.log(currentMovie.ascii);
         score++;
         //asks if they want to keep playing
         if(movie.length!=0){
-          continuePlaying = readlineSync.question("Do you want to keep playing? (Y/N)");
+          continuePlaying = readlineSync.question("Do you want to keep playing? (Y/N)\n");
           if(continuePlaying.toLowerCase() !== 'y') {
             gameOn = false;
             decorations();
@@ -113,7 +162,7 @@ let prefixes = ["No! Here’s a hint","Do you live under a rock? Here’s anothe
           console.log(`You lose! it was ` + currentMovie.name.toUpperCase());
           decorations();
           if(movie.length!=0){
-            continuePlaying = readlineSync.question("Do you want to keep playing? (Y/N)");
+            continuePlaying = readlineSync.question("Do you want to keep playing? (Y/N)\n");
           if(continuePlaying.toLowerCase() !== 'y') {
             gameOn = false;
             decorations();
@@ -125,6 +174,7 @@ let prefixes = ["No! Here’s a hint","Do you live under a rock? Here’s anothe
           }
           }else{
           //there are no more hints and no more movies!
+          gameOn = false;
           decorations();
           thanksForPlaying(score);
           }
